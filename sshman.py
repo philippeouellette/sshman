@@ -12,6 +12,8 @@ def new_address():
     """Here, we get a new session that we save in sessions.json 
     file. We also copy our public ssh key to the remote device."""
     public_key=open('/home/' + getpass.getuser() + '/.ssh/id_rsa.pub','r').read()
+    username=input('username: ')
+    ip=input('ip: ')
 
 
 def existing_address():
