@@ -13,15 +13,18 @@ def new_address():
     file. We also copy our public ssh key to the remote device."""
     public_key=open('/home/' + getpass.getuser() + '/.ssh/id_rsa.pub','r').read()
 
+
 def existing_address():
     """we fetch existing sessions from json file and display them. 
     Gotta let the user choose which session he wants to use but also let him go back to the main menu."""
+    
+    
 
     with open('sessions.json') as file:
         data = json.load(file)
 
     for session in data['sessions']:
-        print(session['username'])
+        print(session['username'] + "@" + session['ip_address'])
 
 
 def main():
