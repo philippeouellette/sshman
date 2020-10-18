@@ -4,7 +4,9 @@ import json,os, getpass
 os.system('clear')
 
 def main_menu():
-    """Main menu function. Simply asks a question that determines the next action for the program."""
+    """Return string
+    
+    Main menu function. Simply asks a question that determines the next action for the program."""
     choice=''
     while choice not in ['1','2']:
         choice = input("Do you wanna 1) add an ip address or 2) use an existing one: ")
@@ -18,7 +20,6 @@ def add_new_address():
     public_key=open('/home/' + getpass.getuser() + '/.ssh/id_rsa.pub','r').read()
     username=input('username: ')
     ip=input('ip: ')
-    print(username +"@"+ip)
     
     #add to json file
     #return to main menu
@@ -36,8 +37,7 @@ def address_selection():
     for session in data['sessions']:
         print(session['username'] + "@" + session['ip_address'])
 
-    #session selection and then we return the session the user chooses
-    #return 
+    #session selection and then we return the session the user chooses as a dict.
 
 def launch_ssh_session(session):
     """
