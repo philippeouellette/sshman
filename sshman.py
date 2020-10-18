@@ -15,6 +15,11 @@ def new_address():
 def existing_address():
     """we fetch existing sessions from json file and display them. 
     Gotta let the user choose which session he wants to use but also let him go back to the main menu."""
+
+
+    #   asdsdasdas ads asd 
+
+
     with open('sessions.json') as file:
         data = json.load(file)
 
