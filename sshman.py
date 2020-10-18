@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import json,os
+import json,os, getpass
 os.system('clear')
 
 def main_menu():
@@ -7,9 +7,10 @@ def main_menu():
     return input("Do you wanna 1) add an ip address or 2) use an existing one")
 
 def new_address():
-    """Here, we get a new sessions that we save in sessions.json 
+    """Here, we get a new session that we save in sessions.json 
     file. We also copy our public ssh key to the remote device."""
-
+    public_key=open('/home/' + getpass.getuser() + '/.ssh/id_rsa.pub','r').read()
+    
 
 def existing_address():
     """we fetch existing sessions from json file and display them. 
@@ -22,7 +23,7 @@ def existing_address():
 
 def main():
     """main function"""
-
+    print(new_address())
 
 if __name__=="__main__":
     main()
