@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import json, os
 from bullet import Bullet
-jsonROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def Clear():
     os.system('clear')
