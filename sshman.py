@@ -32,8 +32,12 @@ def add_new_address():
         Clear()
 
         public_key = open(os.path.expanduser("~") + '/.ssh/id_rsa.pub','r').read()
-        username = input('username: ')
-        ip = input('ip: ')
+
+        while True:
+            Clear()
+            if username := input('username : '):
+                if ip := input('ip: '): 
+                    break
 
         #Get the JSON file content to modify
         data = GetInfoFromJSON()
@@ -86,7 +90,7 @@ def launch_ssh_session(session):
 
     if returnCode == 0:
         exit() #Exit the program here because the ssh connection has been made
-    
+
 
 def main():
     """main function"""
@@ -102,7 +106,8 @@ def main():
                 except:
                     pass
     except:
-        pass
+        Clear()
+
 
 if __name__== "__main__":
     main()
