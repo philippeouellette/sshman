@@ -90,18 +90,19 @@ def launch_ssh_session(session):
 
 def main():
     """main function"""
+    try:
+        while True:
+            Clear()
 
-    while True:
-        Clear()
-
-        if "Add" in main_menu(): #Si le mot "Add" se trouve dans l'option choisie par l'utilisateur
-            add_new_address()
-        else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
-            try:
-                launch_ssh_session(address_selection())
-            except:
-                pass
-    
+            if "Add" in main_menu(): #Si le mot "Add" se trouve dans l'option choisie par l'utilisateur
+                add_new_address()
+            else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
+                try:
+                    launch_ssh_session(address_selection())
+                except:
+                    pass
+    except:
+        pass
 
 if __name__== "__main__":
     main()
