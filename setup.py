@@ -20,7 +20,7 @@ setup(
     install_requires=["bullet"],
     packages=["sshman"],
     entry_points={"console_scripts": ['sshman = sshman.__main__:main']},
-    data_files=[('sshman',['sshman/*.json'])],
+    data_files=[('sessions',['sshman/sessions.json'])],
     include_package_data=True,
     classifiers=["Programming Language :: Python :: 3.8",]
 )
