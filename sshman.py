@@ -28,22 +28,24 @@ def add_new_address():
     """Here, we get a new session that we save in sessions.json 
     file. We also copy our public ssh key to the remote device."""
 
-    Clear()
+    try:
+        Clear()
 
-    public_key = open(os.path.expanduser("~") + '/.ssh/id_rsa.pub','r').read()
-    username = input('username: ')
-    ip = input('ip: ')
+        public_key = open(os.path.expanduser("~") + '/.ssh/id_rsa.pub','r').read()
+        username = input('username: ')
+        ip = input('ip: ')
 
-    #Get the JSON file content to modify
-    data = GetInfoFromJSON()
+        #Get the JSON file content to modify
+        data = GetInfoFromJSON()
 
-    #Adding the new username and IP
-    data['sessions'].append({"username": username, "ip_address": ip})
-     
-    with open('sessions.json', 'w') as f:
-       json.dump(data, f) #Writing in the JSON file
-    
-    #return to main menu
+        #Adding the new username and IP
+        data['sessions'].append({"username": username, "ip_address": ip})
+        
+        with open('sessions.json', 'w') as f:
+            json.dump(data, f) #Writing in the JSON file
+
+    except:
+        pass
 
 
 def address_selection():
@@ -79,8 +81,11 @@ def launch_ssh_session(session):
     Establises an ssh connection using the 2 keys of the dictionnary received, eg. username and ip_address.
     """
     Clear()
-    os.system("ssh " + session)
-    exit() #Exit the program here because the ssh connection has been made
+
+    returnCode = os.system("ssh " + session)
+
+    if returnCode == 0:
+        exit() #Exit the program here because the ssh connection has been made
     
 
 def main():
@@ -92,7 +97,10 @@ def main():
         if "Add" in main_menu(): #Si le mot "Add" se trouve dans l'option choisie par l'utilisateur
             add_new_address()
         else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
-            launch_ssh_session(address_selection())
+            try:
+                launch_ssh_session(address_selection())
+            except:
+                pass
     
 
 if __name__== "__main__":
