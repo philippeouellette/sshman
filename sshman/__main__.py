@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import json, os
 from bullet import Bullet
-
+jsonROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def Clear():
     os.system('clear')
@@ -73,7 +73,7 @@ def address_selection():
 
 def GetInfoFromJSON():
     try:
-        with open('sessions.json') as file:
+        with open(ROOT_DIR + '/sessions.json') as file:
             return json.load(file)
     except:
         print("There's an error with the \"sessions.json\" file, exiting...")
@@ -93,11 +93,10 @@ def launch_ssh_session(session):
 
 
 def main():
-    """main function"""
+    """main function"""    
     try:
         while True:
-            Clear()
-
+            Clear()            
             if "Add" in main_menu(): #Si le mot "Add" se trouve dans l'option choisie par l'utilisateur
                 add_new_address()
             else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
