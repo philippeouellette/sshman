@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import json,os, getpass
+import json, os
 from bullet import Bullet
 
 
@@ -28,13 +28,20 @@ def add_new_address():
     """Here, we get a new session that we save in sessions.json 
     file. We also copy our public ssh key to the remote device."""
 
-    public_key = open('/home/' + getpass.getuser() + '/.ssh/id_rsa.pub','r').read()
+    Clear()
+
+    public_key = open(os.path.expanduser("~") + '/.ssh/id_rsa.pub','r').read()
     username = input('username: ')
     ip = input('ip: ')
-    
-    
 
+    #Get the JSON file content to modify
+    data = GetInfoFromJSON()
 
+    #Adding the new username and IP
+    data['sessions'].append({"username": username, "ip_address": ip})
+     
+    with open('sessions.json', 'w') as f:
+       json.dump(data, f) #Writing in the JSON file
     
     #return to main menu
 
@@ -73,17 +80,19 @@ def launch_ssh_session(session):
     """
     Clear()
     os.system("ssh " + session)
+    exit() #Exit the program here because the ssh connection has been made
     
 
 def main():
     """main function"""
 
-    Clear()
+    while True:
+        Clear()
 
-    if "Add" in main_menu(): #Si le mot "Add" se trouve dans l'option choisie par l'utilisateur
-        add_new_address()
-    
-    launch_ssh_session(address_selection())
+        if "Add" in main_menu(): #Si le mot "Add" se trouve dans l'option choisie par l'utilisateur
+            add_new_address()
+        else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
+            launch_ssh_session(address_selection())
     
 
 if __name__== "__main__":
