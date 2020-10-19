@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import json, os
 from bullet import Bullet
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def Clear():
     os.system('clear')
@@ -72,7 +73,7 @@ def address_selection():
 
 def GetInfoFromJSON():
     try:
-        with open('/sessions.json') as file:
+        with open(ROOT_DIR + '/sessions.json') as file:
             return json.load(file)
     except Exception as e:
         print(e)
