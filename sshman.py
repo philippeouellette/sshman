@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 import json,os, getpass
+from bullet import Bullet
+from collections import OrderedDict
 
 os.system('clear')
 
@@ -30,28 +32,39 @@ def address_selection():
     
     we fetch existing sessions from json file and display them. 
     Gotta let the user choose which session he wants to use but also let him go back to the main menu."""
-
+    os.system('clear')
     with open('sessions.json') as file:
         data = json.load(file)
-
-    for session in data['sessions']:
-        print(session['username'] + "@" + session['ip_address'])
-
+    
+    return(Bullet(
+        prompt = "\nChoose the ssh session: ",
+        choices = list(OrderedDict.fromkeys(session['username']+'@'+session['ip_address'] for session in data['sessions'])), 
+        indent = 0,
+        align = 5, 
+        margin = 2,
+        shift = 0,
+        bullet = "",
+        pad_right = 5,
+        return_index = True
+    ).launch()[0])
+    
     #session selection and then we return the session the user chooses as a dict.
 
 def launch_ssh_session(session):
     """
     Establises an ssh connection using the 2 keys of the dictionnary received, eg. username and ip_address.
     """
+    print("\nLaunching connection to " + session +" ...")
     
 
 def main():
     """main function"""
+
     while main_menu() == "1":
         add_new_address()
     
     launch_ssh_session(address_selection())
-
+    
 
 
 if __name__== "__main__":
