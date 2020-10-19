@@ -75,8 +75,9 @@ def GetInfoFromJSON():
     try:
         with open(ROOT_DIR + '/sessions.json') as file:
             return json.load(file)
-    except:
-        print("There's an error with the \"sessions.json\" file, exiting...")
+    except Exception as e:
+        print(e)
+        #print("There's an error with the \"sessions.json\" file, exiting...")
         exit()
 
 
