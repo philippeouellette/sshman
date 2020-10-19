@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import json, os
 from bullet import Bullet
-
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def Clear():
     os.system('clear')
@@ -29,12 +29,12 @@ def add_new_address():
     file. We also copy our public ssh key to the remote device."""
 
     try:
-        Clear()
+        #Clear()
 
         public_key = open(os.path.expanduser("~") + '/.ssh/id_rsa.pub','r').read()
 
         while True:
-            Clear()
+            #Clear()
             if username := input('username : '):
                 if ip := input('ip: '): 
                     break
@@ -58,7 +58,7 @@ def address_selection():
     we fetch existing sessions from json file and display them. 
     Gotta let the user choose which session he wants to use but also let him go back to the main menu."""
 
-    Clear()
+    #Clear()
     
     return(Bullet(
         prompt = "\nChoose the ssh session: ",
@@ -73,10 +73,11 @@ def address_selection():
 
 def GetInfoFromJSON():
     try:
-        with open('sessions.json') as file:
+        with open(ROOT_DIR + '/sessions.json') as file:
             return json.load(file)
-    except:
-        print("There's an error with the \"sessions.json\" file, exiting...")
+    except Exception as e:
+        print(e)
+        #print("There's an error with the \"sessions.json\" file, exiting...")
         exit()
 
 
@@ -84,7 +85,7 @@ def launch_ssh_session(session):
     """
     Establises an ssh connection using the 2 keys of the dictionnary received, eg. username and ip_address.
     """
-    Clear()
+    #Clear()
 
     returnCode = os.system("ssh " + session)
 
@@ -93,11 +94,10 @@ def launch_ssh_session(session):
 
 
 def main():
-    """main function"""
+    """main function"""    
     try:
         while True:
-            Clear()
-
+            #Clear()            
             if "Add" in main_menu(): #Si le mot "Add" se trouve dans l'option choisie par l'utilisateur
                 add_new_address()
             else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
@@ -106,7 +106,8 @@ def main():
                 except:
                     pass
     except:
-        Clear()
+        #Clear()
+        pass
 
 
 if __name__== "__main__":
