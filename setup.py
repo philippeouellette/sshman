@@ -19,7 +19,7 @@ config = {
     "install_requires": ["bullet"],
     "packages": ["sshman"],
     "entry_points": {
-        "console_scripts": ['sshman = sshman:main']
+        "console_scripts": ['sshman = sshman.sshman:main']
     },
     "name": "sshman",
     "classifiers": [
