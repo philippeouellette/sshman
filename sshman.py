@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import json,os, getpass
 from bullet import Bullet
-from collections import OrderedDict
 
 
 def Clear():
@@ -33,7 +32,10 @@ def add_new_address():
     username = input('username: ')
     ip = input('ip: ')
     
-    #add to json file
+    
+
+
+    
     #return to main menu
 
 
@@ -47,15 +49,13 @@ def address_selection():
     
     return(Bullet(
         prompt = "\nChoose the ssh session: ",
-        choices = list(OrderedDict.fromkeys(session['username'] + '@' + session['ip_address'] for session in GetInfoFromJSON()['sessions'])), 
+        choices = list(session['username'] + '@' + session['ip_address'] for session in GetInfoFromJSON()['sessions']), 
         align = 5, 
         margin = 2,
         bullet = "",
         pad_right = 5,
         return_index = True
     ).launch()[0])
-    
-    #session selection and then we return the session the user chooses as a dick.
 
 
 def GetInfoFromJSON():
