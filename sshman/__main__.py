@@ -105,7 +105,8 @@ def main():
                 except:
                     pass
     except:
-        Clear()
+        #Clear()
+        pass
 
 
 if __name__== "__main__":
