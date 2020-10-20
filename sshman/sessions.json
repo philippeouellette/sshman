@@ -1,9 +1,0 @@
-{
-    "sessions": 
-    [
-        {"username": "root", "ip_address": "192.168.100.4"}, 
-        {"username": "philippe", "ip_address": "192.168.100.23"}, 
-        {"username": "astro", "ip_address": "10.6.0.2"}, 
-        {"username": "pi", "ip_address": "192.168.100.3"}
-    ]
-}
