@@ -36,30 +36,45 @@ def add_new_address():
     try:
         Clear()
 
-        #public_key = open(os.path.expanduser("~") + '/.ssh/id_rsa.pub','r').read()
-
         while True:
             Clear()
-            if username := input('username : '):
-                if ip := input('ip: '): 
+
+            if username := input('Username: ').strip():
+                if ip := input('IP: ').strip(): 
+                    client = username + "@" + ip
+
+                    #Protection for dupplicates
+                    if client in ReadCSV(0): 
+                        Clear()
+                        input("This user already exists...\nPress ENTER")
+                        return
+
+                    #Manage the identify file
+                    while True:
+                        identityFile = input('Identify file: ')
+
+                        if os.path.isfile(identityFile) or identityFile.strip() == "": #If the identify file exist
+                            break
+                        
+                        Clear()
+                        
                     break
 
-        client = username + "@" + ip
-        WriteCSV(client, "keyfile", "password")
-    except:
-        pass
+        WriteCSV(client, identityFile, "")
+
+    except: pass
 
 
-def WriteCSV(client, keyfile, password):
+def WriteCSV(client, identityFile, password):
     try:
         with open(ROOT_DIR + '/sessions.csv', 'a') as f:
             writer = csv.writer(f)
-            writer.writerow([client, keyfile, password]) #Write in the .csv
+            writer.writerow([client, identityFile, password]) #Write in the .csv
     except:
         print("There's an error in the csv file")
 
 
-def ReadCSV(col): #What col of the csv we want to print (0=client, 1=keyfile, 2=password, all=all)
+def ReadCSV(col): #What col of the csv we want to print (0=client, 1=identityFile, 2=password, all=all)
     try:
         with open(ROOT_DIR + '/sessions.csv', 'r') as f:
             reader = csv.reader(f, delimiter=',')
@@ -72,6 +87,12 @@ def ReadCSV(col): #What col of the csv we want to print (0=client, 1=keyfile, 2=
         print("There's an error in the csv file")
 
 
+def RetrieveInfoFromClient(client): #Retrieve the row in the .csv from the user@ip
+    for row in ReadCSV("all"):
+        if row[0] == client:
+            return row
+
+
 def address_selection():
     """Return dict
     
@@ -80,7 +101,9 @@ def address_selection():
 
     Clear()
     
-    return CreateBulletList("\nChoose the ssh session: ", list(ReadCSV(0)))
+    choice = CreateBulletList("\nChoose the ssh session: ", list(ReadCSV(0)))
+
+    return RetrieveInfoFromClient(choice)
 
 
 def launch_ssh_session(session):
@@ -90,19 +113,20 @@ def launch_ssh_session(session):
 
     Clear()
 
-    returnCode = os.system("ssh " + session)
-
-    if returnCode == 0:
-        exit() #Exit the program here because the ssh connection has been made
+    if session[1]:
+            returnCode = os.system("ssh " + session[0] + " -i " + session[1])
     else:
-        #We could output an error message to the user saying that the connection to the ssh server has been lost
-        pass
+        returnCode = os.system("ssh " + session[0])
+
+    #Handle problems with ssh (Return code 0 = GOOD)
+    if returnCode == 0: exit() #Exit the program here because the ssh connection has been made
+    else: input("There was an error with the ssh session...\nPress ENTER")  
 
 
 def RemoveClient():
     Clear()
 
-    csvContent = ReadCSV("all")
+    csvContent = ReadCSV("all") #Save the .csv content before deleting it
     clientToDel = CreateBulletList("\nChoose the ssh session: ", list(ReadCSV(0)))
 
     open(ROOT_DIR + '/sessions.csv', 'w').close() #Erase the .csv file
@@ -126,7 +150,7 @@ def main():
                 RemoveClient()
             else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
                 try: launch_ssh_session(address_selection()) 
-                except: pass
+                except: pass #When we Ctrl+C
     except:  
         Clear()
         exit()
