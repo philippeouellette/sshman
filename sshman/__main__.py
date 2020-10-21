@@ -27,9 +27,14 @@ def main_menu():
     Main menu function. Simply asks a question that determines the next action for the program."""
 
     try: return CreateBulletList("\nChoose an option: ", ["Use an existing IP address", "Add an IP address", "Remove an IP address", "Quit"])
-    except: #If we Ctrl+C in the menu
-            Clear()
-            exit()
+    except KeyboardInterrupt: #When we Ctrl+C
+        Clear()
+        exit()
+    except Exception as e: 
+        Clear()
+        print("An error as occured...\n" + str(e))
+        input("\nPress ENTER")
+        exit()
 
 
 def add_new_address():
@@ -71,8 +76,11 @@ def add_new_address():
 
         WriteCSV(client, identityFile, port)
 
-    except: pass
-
+    except KeyboardInterrupt: pass #When we Ctrl+C
+    except Exception as e: 
+        Clear()
+        print("An error as occured...\n" + str(e))
+        input("\nPress ENTER")
 
 def WriteCSV(client, identityFile, port):
     try:
@@ -144,7 +152,11 @@ def RemoveClient():
         for i in csvContent:
             if i[0] != clientToDel:
                 WriteCSV(i[0], i[1], i[2])
-    except: pass
+    except KeyboardInterrupt: pass #When we Ctrl+C
+    except Exception as e: 
+        Clear()
+        print("An error as occured...\n" + str(e))
+        input("\nPress ENTER")
 
 
 def main():
@@ -163,7 +175,12 @@ def main():
             exit()
         else: #Return to the main_menu if we've successfully added a new session, else, launch in the address_selection menu
             try: launch_ssh_session(address_selection()) 
-            except: pass #When we Ctrl+C
+            except KeyboardInterrupt: pass #When we Ctrl+C
+            except Exception as e: 
+                Clear()
+                print("An error as occured...\n" + str(e))
+                input("\nPress ENTER")
+
 
 
 if __name__== "__main__":
