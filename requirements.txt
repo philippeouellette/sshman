@@ -1,1 +1,2 @@
 bullet==2.2.0
+paramiko==2.7.2
