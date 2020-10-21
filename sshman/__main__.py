@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import os, csv
+import os, csv, paramiko
 from bullet import Bullet
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -49,6 +49,10 @@ def add_new_address():
                         input("This user already exists...\nPress ENTER")
                         return
 
+                    port = input("Port: ")
+                    if port == "":
+                        port = "22"
+
                     #Manage the identify file
                     while True:
                         identityFile = input('Identify file: ')
@@ -57,24 +61,24 @@ def add_new_address():
                             break
                         
                         Clear()
-                        
+
                     break
 
-        WriteCSV(client, identityFile, "")
+        WriteCSV(client, identityFile, port)
 
     except: pass
 
 
-def WriteCSV(client, identityFile, password):
+def WriteCSV(client, identityFile, port):
     try:
         with open(ROOT_DIR + '/sessions.csv', 'a') as f:
             writer = csv.writer(f)
-            writer.writerow([client, identityFile, password]) #Write in the .csv
+            writer.writerow([client, identityFile, port]) #Write in the .csv
     except:
         print("There's an error in the csv file")
 
 
-def ReadCSV(col): #What col of the csv we want to print (0=client, 1=identityFile, 2=password, all=all)
+def ReadCSV(col): #What col of the csv we want to print (0=client, 1=identityFile, 2=port, all=all)
     try:
         with open(ROOT_DIR + '/sessions.csv', 'r') as f:
             reader = csv.reader(f, delimiter=',')
@@ -114,9 +118,9 @@ def launch_ssh_session(session):
     Clear()
 
     if session[1]:
-            returnCode = os.system("ssh " + session[0] + " -i " + session[1])
+        returnCode = os.system("ssh " + session[0] + " -i " + session[1] + " -p " + session[2])
     else:
-        returnCode = os.system("ssh " + session[0])
+        returnCode = os.system("ssh " + session[0] + " -p " + session[2])
 
     #Handle problems with ssh (Return code 0 = GOOD)
     if returnCode == 0: exit() #Exit the program here because the ssh connection has been made
