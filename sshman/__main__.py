@@ -54,7 +54,7 @@ def add_new_address():
                         return
 
                     port = input("Port: ")
-                    if port == "":
+                    if not port:
                         port = "22"
 
                     #Manage the identify file
