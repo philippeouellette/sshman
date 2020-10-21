@@ -17,7 +17,7 @@ setup(
     download_url="http://192.168.100.23:3000/ouellp/sshman",
     author_email="philippeouellette@protonmail.com",
     version="2.0.5",
-    install_requires=["bullet"],
+    install_requires=["bullet", "paramiko"],
     packages=["sshman"],
     entry_points={"console_scripts": ['sshman = sshman.__main__:main']},
     data_files=[('sessions',['sshman/sessions.csv'])],
